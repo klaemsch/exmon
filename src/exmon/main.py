@@ -91,7 +91,7 @@ class ExMon:
         """Configures default logging"""
 
         # create logger and set logging level
-        self._logger = logging.getLogger('exmon.errors')
+        self._logger = logging.getLogger('exmon.logging')
         self._logger.setLevel(logging.DEBUG)
 
         # create handler that prints to console

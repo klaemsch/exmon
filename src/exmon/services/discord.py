@@ -17,12 +17,16 @@ class DiscordWebhook(Service):
         """
         self.url = str(url)
 
-    def __call__(self, data: Alarm):
-        """ send message string to discord webhook """
+    def __call__(self, alarm: Alarm):
+        """send message string to discord webhook.
+        
+        Args:
+            alarm (:obj:`Alarm`): data object of the exception.
+        """
 
         data_str = (
-            f'exmon reports an error with error code **{data.error_code}**.\n'
-            f'```{data.get_formatted_traceback_string()}```'
+            f'exmon reports an error with error code **{alarm.error_code}**.\n'
+            f'```{alarm.get_formatted_traceback_string()}```'
         )
 
         data = {'content': data_str}

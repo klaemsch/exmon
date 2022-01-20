@@ -59,11 +59,11 @@ class Alerta(Service):
         # default config
         self.config = AlertaConfig()
 
-    def __call__(self, data: Alarm) -> None:
+    def __call__(self, alarm: Alarm) -> None:
         """send exception data to Alerta Monitoring system.
 
         Args:
-            data (:obj:`Alarm`): data object of the exception.
+            alarm (:obj:`Alarm`): data object of the exception.
         """
 
         # auth
@@ -71,13 +71,13 @@ class Alerta(Service):
 
         # hint: https://docs.alerta.io/api/reference.html#create-an-alert
         data = {
-            'event': f'{data.get_exc_name()}: {data.get_exc_message()}',
-            'value': data.error_code,
+            'event': f'{alarm.get_exc_name()}: {alarm.get_exc_message()}',
+            'value': alarm.error_code,
             'text': (
-                f'Error Code: {data.error_code}. '
+                f'Error Code: {alarm.error_code}. '
                 'See raw data for more information.'
             ),
-            'rawData': str(data.get_formatted_traceback_string()),
+            'rawData': str(alarm.get_formatted_traceback_string()),
         }
 
         # load data from config and update data dict
