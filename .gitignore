@@ -1,0 +1,14 @@
+# virtual environments
+exmon-venv
+test-venv
+
+# python
+__pycache__
+dist
+*.egg-info
+
+# editors
+.vscode
+
+# testing
+*test.py
