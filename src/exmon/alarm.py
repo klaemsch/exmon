@@ -1,7 +1,7 @@
 import traceback
-from types import TracebackType
-from typing import Type
 import uuid
+from types import TracebackType
+from typing import List, Type
 
 
 class Alarm:
@@ -58,3 +58,8 @@ class Alarm:
             f'{ftb}'
             f'{self.get_exc_name()}: {self.get_exc_message()}'
         )
+
+    def get_traceback_list(self) -> List[str]:
+        """returns traceback in form of a list of strings."""
+
+        return traceback.format_tb(self.exc_traceback)
