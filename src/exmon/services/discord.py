@@ -19,7 +19,7 @@ class DiscordWebhook(Service):
 
     def __call__(self, alarm: Alarm):
         """send message string to discord webhook.
-        
+
         Args:
             alarm (:obj:`Alarm`): data object of the exception.
         """

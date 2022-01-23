@@ -27,7 +27,7 @@ class AlertaConfig():
         """returns key/value-dict of config.
 
         Args:
-            exclude_none (): wether or not None values should be excluded.
+            exclude_none (:obj:`bool`): wether or not None values should be excluded.
         """
 
         config = self.__dict__
