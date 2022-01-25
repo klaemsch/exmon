@@ -8,7 +8,7 @@ class Webhook(Service):
     """ Webhook Service sends exceptions to a simple webhook """
 
     # name of the service
-    _name: str = 'Webhook'
+    _name: str = 'WebhookService'
 
     def __init__(self, url: str, method: str):
         """Create a new Webhook Service.
@@ -22,13 +22,14 @@ class Webhook(Service):
         self.url = url
         self.method = method
 
-    def __call__(self, alarm: Alarm) -> None:
+    def __call__(self, alarm: Alarm, description: str) -> None:
         """send data to a simple webhook.
         Args:
             alarm (:obj:`Alarm`): data object of the exception.
         """
 
         data = {
+            'service_name': f'{description}({self._name})',
             'error_code': alarm.error_code,
             'exception_name': alarm.get_exc_name(),
             'exception_message': alarm.get_exc_message(),

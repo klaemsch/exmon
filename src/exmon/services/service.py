@@ -8,7 +8,7 @@ class Service:
     # name of the service
     _name: str = 'BaseService'
 
-    def __call__(self, data: Alarm) -> None:
+    def __call__(self, alarm: Alarm, description: str) -> None:
 
         try:
             raise Exception(

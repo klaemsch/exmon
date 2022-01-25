@@ -6,7 +6,7 @@ from exmon.services import Service
 
 class DiscordWebhook(Service):
     """ Discord Service sends exceptions to a discord webhook """
-    _name: str = 'Discord Webhook'
+    _name: str = 'DiscordWebhookService'
 
     def __init__(self, url: str):
         """Create a new Discord Webhook Service.
@@ -17,7 +17,7 @@ class DiscordWebhook(Service):
         """
         self.url = str(url)
 
-    def __call__(self, alarm: Alarm):
+    def __call__(self, alarm: Alarm, description: str):
         """send message string to discord webhook.
 
         Args:
@@ -25,7 +25,8 @@ class DiscordWebhook(Service):
         """
 
         data_str = (
-            f'exmon reports an error with error code **{alarm.error_code}**.\n'
+            f'{description}({self._name}) '
+            f'reports an error with error code **{alarm.error_code}**.\n'
             f'```{alarm.get_formatted_traceback_string()}```'
         )
 

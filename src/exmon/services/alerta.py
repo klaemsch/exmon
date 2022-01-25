@@ -18,7 +18,6 @@ class AlertaConfig():
         self.resource = kwargs.get('resource', 'ExampleResource')
         # list of effected services
         self.service = kwargs.get('service', ['example.org'])
-        self.origin = kwargs.get('origin', None)
         self.group = kwargs.get('group', None)
         self.status = kwargs.get('status', None)
         self.severity = kwargs.get('severity', None)
@@ -41,7 +40,7 @@ class AlertaConfig():
 class Alerta(Service):
     """Alerta Service sends exceptions to an Alerta Server."""
 
-    _name: str = 'Alerta'
+    _name: str = 'AlertaService'
 
     def __init__(self, host_url: str, api_key: str) -> None:
         """Create a new Alerta Service.
@@ -59,7 +58,7 @@ class Alerta(Service):
         # default config
         self.config = AlertaConfig()
 
-    def __call__(self, alarm: Alarm) -> None:
+    def __call__(self, alarm: Alarm, description: str) -> None:
         """send exception data to Alerta Monitoring system.
 
         Args:
@@ -71,6 +70,7 @@ class Alerta(Service):
 
         # hint: https://docs.alerta.io/api/reference.html#create-an-alert
         data = {
+            'origin': f'{description}({self._name})',
             'event': f'{alarm.get_exc_name()}: {alarm.get_exc_message()}',
             'value': alarm.error_code,
             'text': (

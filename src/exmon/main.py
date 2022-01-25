@@ -14,9 +14,10 @@ class ExMon:
 
     def __init__(
         self,
+        services: List[Service] = None,
+        description: str = 'exmon',
         logger: logging.Logger = None,
-        log_level: Union[int, str] = logging.DEBUG,
-        services: List[Service] = None
+        log_level: Union[int, str] = logging.DEBUG
     ):
 
         # list of services
@@ -24,6 +25,9 @@ class ExMon:
             self.services = []
         else:
             self.services = services
+
+        # set visible name
+        self.description = description
 
         # configure logging
         if logger is None:
@@ -64,12 +68,12 @@ class ExMon:
         """
 
         # create exception data wrapper
-        data = Alarm(exc_type, exc, exc_traceback)
+        alarm = Alarm(exc_type, exc, exc_traceback)
 
         # send exception to registered services
         for service in self.services:
             try:
-                service(data)
+                service(alarm, self.description)
                 self._logger.debug(f'Send alert to {str(service)}')
             except ServiceExcpetion as sexc:
                 self._logger.error(sexc)
@@ -77,7 +81,7 @@ class ExMon:
         # call original/default except hook that was saved before
         self.existing_except_hook(exc_type, exc, exc_traceback)
 
-        return data
+        return alarm
 
     def add_service(self, service: Service) -> None:
         """Binds a new service, that will be called every time an exception occurs
